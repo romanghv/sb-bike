@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB BIKE DETAIL - La Venta</title>
+    <style>
+        /* --- ESTILOS BASE Y ESTÉTICA PREMIUM (NEGRO Y DORADO) --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #f3f4f6;
+            padding-bottom: 30px;
+        }
+
+        /* --- HERO & LOGO STYLE --- */
+        header {
+            background: linear-gradient(180deg, #18181b 0%, #09090b 100%);
+            color: #ffffff;
+            padding: 24px 16px 16px 16px;
+            text-align: center;
+            border-bottom: 1px solid #27272a;
+        }
+
+        .brand-title {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #d4af37; /* Dorado Elegante */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 3px;
+            margin-top: 2px;
+        }
+
+        .brand-tag {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        /* BANNER HERO DE BICICLETA */
+        .hero-image-container {
+            position: relative;
+            max-width: 480px;
+            margin: 16px auto 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #3f3f46;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background-color: #000;
+        }
+
+        .hero-overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 16px 12px 16px;
+            text-align: center;
+        }
+
+        .hero-claim {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #e5c158;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .badge-no-karcher {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.15);
+            color: #e5c158;
+            border: 1px solid #d4af37;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        /* NAVEGACIÓN TAB */
+        .tabs-container {
+            display: flex;
+            max-width: 480px;
+            margin: 16px auto 12px auto;
+            padding: 0 12px;
+            gap: 8px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #27272a;
+            background-color: #18181b;
+            color: #a1a1aa;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-button.active {
+            background-color: #d4af37;
+            color: #000000;
+            border-color: #e5c158;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+
+        .section-view {
+            display: none;
+        }
+
+        .section-view.active {
+            display: block;
+        }
+
+        .card {
+            background-color: #18181b;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+            border: 1px solid #27272a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- SELECCIÓN DE SERVICIO --- */
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .service-option {
+            border: 2px solid #27272a;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            position: relative;
+            background-color: #09090b;
+            transition: all 0.2s;
+        }
+
+        .service-option.selected {
+            border-color: #d4af37;
+            background-color: rgba(212, 175, 55, 0.08);
+        }
+
+        .service-option input[type="radio"] {
+            display: none;
+        }
+
+        .service-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .service-desc {
+            font-size: 0.72rem;
+            color: #71717a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .service-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #d4af37;
+        }
+
+        .popular-pill {
+            position: absolute;
+            top: -8px;
+            right: 8px;
+            background-color: #d4af37;
+            color: #000000;
+            font-size: 0.6rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- FORMULARIOS --- */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #3f3f46;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+            background-color: #09090b;
+            color: #ffffff;
+        }
+
+        .form-input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        /* GPS BOTÓN */
+        .btn-gps {
+            width: 100%;
+            background-color: rgba(212, 175, 55, 0.1);
+            border: 1px dashed #d4af37;
+            color: #e5c158;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-gps:active {
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+
+        /* SELECCIÓN WHATSAPP */
+        .wa-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .wa-card {
+            border: 1px solid #3f3f46;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background-color: #09090b;
+            color: #e4e4e7;
+        }
+
+        .wa-card input {
+            accent-color: #d4af37;
+        }
+
+        /* BOTONES PRINCIPALES */
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            background-color: #d4af37;
+            color: #000000;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-main:active {
+            transform: translateY(1px);
+        }
+
+        .btn-secondary {
+            background-color: #27272a;
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        /* --- TICKET & INDICADOR DE RASTREO --- */
+        .ticket-box {
+            border: 2px dashed #d4af37;
+            background-color: rgba(212, 175, 55, 0.05);
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .ticket-code {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #d4af37;
+        }
+
+        /* Indicador visual de progreso */
+        .tracker-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 10px 0;
+            position: relative;
+        }
+
+        .tracker-line {
+            position: absolute;
+            top: 14px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background-color: #27272a;
+            z-index: 1;
+        }
+
+        .tracker-line-fill {
+            height: 100%;
+            background-color: #d4af37;
+            width: 25%;
+            transition: width 0.4s ease;
+        }
+
+        .step-node {
+            position: relative;
+            z-index: 2;
+            background-color: #18181b;
+            border: 3px solid #3f3f46;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #71717a;
+        }
+
+        .step-node.active {
+            border-color: #d4af37;
+            background-color: #d4af37;
+            color: #000000;
+        }
+
+        .step-label-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-top: 12px;
+        }
+
+        /* ADMIN CARD */
+        .admin-card {
+            border-left: 4px solid #d4af37;
+            background-color: #09090b;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-top: 1px solid #27272a;
+            border-right: 1px solid #27272a;
+            border-bottom: 1px solid #27272a;
+        }
+
+        .badge-status {
+            background-color: rgba(212, 175, 55, 0.2);
+            color: #e5c158;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #52525b;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO Y LOGO PRINCIPAL -->
+    <header>
+        <div class="brand-title">SB BIKE DETAIL</div>
+        <div class="brand-subtitle">LA VENTA</div>
+        <div class="brand-tag">LAVADO Y DETALLADO DE BICICLETAS</div>
+    </header>
+
+    <!-- BANNER HERO CON IMAGEN DE BICICLETA MTB DE ALTA GAMA -->
+    <div class="container">
+        <div class="hero-image-container">
+            <img src="https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?auto=format&fit=crop&w=800&q=80" 
+                 alt="SB Bike Detail MTB" 
+                 class="hero-image"
+                 onerror="this.src='https://placehold.co/800x450/09090b/d4af37?text=SB+BIKE+DETAIL+LA+VENTA'">
+            <div class="hero-overlay-text">
+                <div class="hero-claim">¡Nosotros vamos por tu bici!</div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <div class="badge-no-karcher">🛡️ 0% KARCHER: Lavado manual a presión controlada</div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN POR PESTAÑAS -->
+    <div class="tabs-container">
+        <button class="tab-button active" id="btn-tab-client" onclick="switchView('client')">Pedir Recolección</button>
+        <button class="tab-button" id="btn-tab-admin" onclick="switchView('admin')">Panel de Administración</button>
+    </div>
+        </div>
+
+        <div style="text-align: center;">
+            <div class="badge-no-karcher">🛡️ 0% KARCHER: Lavado manual a presión controlada</div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN POR PESTAÑAS -->
+    <div class="tabs-container">
+        <button class="tab-button active" id="btn-tab-client" onclick="switchView('client')">Pedir Recolección</button>
+        <button class="tab-button" id="btn-tab-admin" onclick="switchView('admin')">Modo Equipo (Admin)</button>
+    </div>
+
+    <div class="container">
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 1: VISTA CICLISTA (FORMULARIO)     -->
+        <!-- ========================================== -->
+        <section id="view-client" class="section-view active">
+
+            <!-- FORMULARIO DE RESERVA -->
+            <div id="form-container" class="card">
+                <form id="wash-form" onsubmit="submitRequest(event)">
+
+                    <!-- 1. Selección de Servicio -->
+                    <div class="form-group">
+                        <label class="form-label">1. Selecciona tu Servicio</label>
+                        <div class="service-grid">
+                            <label class="service-option selected" id="opt-60" onclick="selectService('60')">
+                                <input type="radio" name="service" value="60" data-name="Lavado Básico" checked>
+                                <div class="service-name">Lavado Básico</div>
+                                <div class="service-desc">Manguera a presión controlada, cuadro, rines y llantas.</div>
+                                <div class="service-price">$60</div>
+                            </label>
+
+                            <label class="service-option" id="opt-70" onclick="selectService('70')">
+                                <span class="popular-pill">Recomendado</span>
+                                <input type="radio" name="service" value="70" data-name="Lavado + Engrasado Cadena">
+                                <div class="service-name">Lavado + Engrasado</div>
+                                <div class="service-desc">Incluye desengrasado y lubricación de cadena.</div>
+                                <div class="service-price">$70</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 2. Ubicación GPS / Referencia -->
+                    <div class="form-group">
+                        <label class="form-label">2. Ubicación en La Venta</label>
+                        <button type="button" class="btn-gps" onclick="getGPS()">
+                            📍 <span id="gps-text">Obtener mi ubicación GPS actual</span>
+                        </button>
+                        <input type="text" id="input-location" class="form-input" required placeholder="Ej. Restaurante Las Quecas, Mesa 4">
+                    </div>
+
+                    <!-- 3. Datos del Ciclista -->
+                    <div class="form-group">
+                        <label class="form-label">3. Tus Datos y Bicicleta</label>
+                        <div class="form-group">
+                            <input type="text" id="input-name" class="form-input" required placeholder="Tu nombre">
+                        </div>
+                        <div class="grid-2">
+                            <input type="text" id="input-bike" class="form-input" required placeholder="Marca (Trek, Specialized...)">
+                            <input type="text" id="input-color" class="form-input" required placeholder="Color de la bici">
+                        </div>
+                    </div>
+
+                    <!-- 4. Selección de WhatsApp -->
+                    <div class="form-group">
+                        <label class="form-label">4. Enviar WhatsApp a:</label>
+                        <div class="wa-selector">
+                            <label class="wa-card">
+                                <input type="radio" name="wa_phone" value="5631131911" checked>
+                                <span>56 3113 1911</span>
+                            </label>
+                            <label class="wa-card">
+                                <input type="radio" name="wa_phone" value="5566882612">
+                                <span>55 6688 2612</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Botón Enviar -->
+                    <button type="submit" class="btn-main">
+                        💬 Pedir Recolección por WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <!-- TICKET VIRTUAL CON SEGUIMIENTO DE PROGRESO -->
+            <div id="ticket-container" class="card" style="display: none;">
+                <div class="ticket-box">
+                    <div style="font-size: 0.75rem; color: #a1a1aa;">FOLIO DE SERVICIO</div>
+                    <div class="ticket-code" id="ticket-id-disp">#SB-100</div>
+                    <div style="font-size: 0.9rem; margin-top: 4px; color: #ffffff;" id="ticket-client-disp">Ciclista</div>
+                </div>
+
+                <!-- Indicador visual de progreso -->
+                <div class="form-label" style="text-align: center;">Estado del Servicio en Tiempo Real</div>
+                <div class="tracker-steps">
+                    <div class="tracker-line">
+                        <div class="tracker-line-fill" id="track-fill"></div>
+                    </div>
+                    <div class="step-node active" id="node-1">1</div>
+                    <div class="step-node" id="node-2">2</div>
+                    <div class="step-node" id="node-3">3</div>
+                    <div class="step-node" id="node-4">4</div>
+                </div>
+                <div class="step-label-text" id="track-status-text">1. Solicitud recibida (Equipo en camino)</div>
+
+                <!-- Resumen de Pedido -->
+                <div style="margin-top: 18px; font-size: 0.8rem; background-color: #09090b; padding: 12px; border-radius: 8px; border: 1px solid #27272a;">
+                    <div><strong style="color: #d4af37;">Restaurante / Referencia:</strong> <span id="summary-loc" style="color: #ffffff;">-</span></div>
+                    <div style="margin-top:4px;"><strong style="color: #d4af37;">Bicicleta:</strong> <span id="summary-bike" style="color: #ffffff;">-</span></div>
+                    <div style="margin-top:4px;"><strong style="color: #d4af37;">Paquete:</strong> <span id="summary-service" style="color: #ffffff;">-</span></div>
+                </div>
+
+                <button type="button" class="btn-main btn-secondary" onclick="newOrder()" style="margin-top: 16px;">
+                    + Nueva Solicitud
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 2: MODO ADMINISTRADOR (EQUIPO)     -->
+        <!-- ========================================== -->
+        <section id="view-admin" class="section-view">
+            <div class="card">
+                <div class="card-title">📋 Solicitudes Activas - SB BIKE DETAIL</div>
+                <p style="font-size: 0.75rem; color: #a1a1aa; margin-bottom: 14px;">
+                    Gestiona las solicitudes del Desierto de los Leones y notifica por WhatsApp cuando la bici quede impecable.
+                </p>
+
+                <!-- Contenedor dinámico de órdenes admin -->
+                <div id="admin-orders-list"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <p><strong>SB BIKE DETAIL - LA VENTA</strong></p>
+        <p>Desierto de los Leones • Cuajimalpa, CDMX</p>
+        <p>Servicio Sábados y Domingos</p>
+    </footer>
+
+    <!-- LÓGICA EN JAVASCRIPT DIRECTA -->
+    <script>
+        // Coordenadas o Enlace de Google Maps
+        let currentGpsUrl = "Ubicación manual indicada por cliente";
+
+        // Lista de órdenes para el modo admin
+        let ordersList = [
+            {
+                id: 'SB-101',
+                name: 'Alejandro Ramos',
+                phone: '5566882612',
+                bike: 'Specialized Stumpjumper (Negra)',
+                location: 'Restaurante El Conejo, Mesa 2',
+                service: 'Lavado + Engrasado',
+                price: 70,
+                step: 1
+            }
+        ];
+
+        let activeOrder = null;
+
+        // Cambio entre pestañas
+        function switchView(view) {
+            document.getElementById('btn-tab-client').classList.remove('active');
+            document.getElementById('btn-tab-admin').classList.remove('active');
+            document.getElementById('view-client').classList.remove('active');
+            document.getElementById('view-admin').classList.remove('active');
+
+            if (view === 'client') {
+                document.getElementById('btn-tab-client').classList.add('active');
+                document.getElementById('view-client').classList.add('active');
+            } else {
+                document.getElementById('btn-tab-admin').classList.add('active');
+                document.getElementById('view-admin').classList.add('active');
+                renderAdminList();
+            }
+        }
+
+        // Seleccionar tarjeta de servicio
+        function selectService(price) {
+            document.getElementById('opt-60').classList.remove('selected');
+            document.getElementById('opt-70').classList.remove('selected');
+            document.getElementById('opt-' + price).classList.add('selected');
+
+            const radios = document.getElementsByName('service');
+            radios.forEach(r => {
+                if(r.value === price) r.checked = true;
+            });
+        }
+
+        // Obtener Geolocalización GPS simple
+        function getGPS() {
+            const label = document.getElementById('gps-text');
+            if (!navigator.geolocation) {
+                alert("Geolocalización no soportada por el navegador.");
+                return;
+            }
+
+            label.innerText = "Obteniendo GPS...";
+
+            navigator.geolocation.getCurrentPosition(
+                function(pos) {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    currentGpsUrl = "https://maps.google.com/?q=" + lat + "," + lng;
+                    label.innerText = "✓ Ubicación GPS Capturada";
+                },
+                function(err) {
+                    label.innerText = "GPS no disponible (Especifica tu ref.)";
+                },
+                { enableHighAccuracy: true, timeout: 5000 }
+            );
+        }
+
+        // Enviar pedido y abrir WhatsApp
+        function submitRequest(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('input-name').value;
+            const location = document.getElementById('input-location').value;
+            const bike = document.getElementById('input-bike').value;
+            const color = document.getElementById('input-color').value;
+
+            // Seleccionar Servicio
+            let serviceName = "Lavado Básico";
+            let price = "60";
+            const selectedService = document.querySelector('input[name="service"]:checked');
+            if(selectedService) {
+                serviceName = selectedService.getAttribute('data-name');
+                price = selectedService.value;
+            }
+
+            // Seleccionar Número de destino
+            let waDest = "5631131911";
+            const selectedWa = document.querySelector('input[name="wa_phone"]:checked');
+            if(selectedWa) {
+                waDest = selectedWa.value;
+            }
+
+            const ticketId = "SB-" + Math.floor(100 + Math.random() * 900);
+
+            // Crear objeto de orden
+            activeOrder = {
+                id: ticketId,
+                name: name,
+                phone: waDest,
+                bike: bike + " (" + color + ")",
+                location: location,
+                service: serviceName,
+                price: price,
+                step: 1
+            };
+
+            ordersList.unshift(activeOrder);
+
+            // Construir Mensaje de WhatsApp
+            let text = "*¡SOLICITUD RECOLECCIÓN - SB BIKE DETAIL!*%0A%0A" +
+                "*Ticket:* " + ticketId + "%0A" +
+                "*Cliente:* " + name + "%0A" +
+                "*Lugar:* " + location + "%0A" +
+                "*Ubicación GPS:* " + currentGpsUrl + "%0A" +
+                "*Bicicleta:* " + bike + " - " + color + "%0A" +
+                "*Servicio:* " + serviceName + " ($" + price + " MXN)%0A%0A" +
+                "_¡Nosotros vamos por tu bici!_";
+
+            // Abrir enlace de WhatsApp
+            window.open("https://wa.me/52" + waDest + "?text=" + text, '_blank');
+
+            // Mostrar pantalla de Ticket
+            showTicket(activeOrder);
+        }
+
+        // Mostrar vista de Ticket y barra de estado
+        function showTicket(order) {
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('ticket-container').style.display = 'block';
+
+            document.getElementById('ticket-id-disp').innerText = "#" + order.id;
+            document.getElementById('ticket-client-disp').innerText = "Ciclista: " + order.name;
+            document.getElementById('summary-loc').innerText = order.location;
+            document.getElementById('summary-bike').innerText = order.bike;
+            document.getElementById('summary-service').innerText = order.service + " ($" + order.price + " MXN)";
+
+            updateTrackerUI(order.step);
+        }
+
+        // Actualizar Nodos de Progreso Visual
+        function updateTrackerUI(step) {
+            const fill = document.getElementById('track-fill');
+            const label = document.getElementById('track-status-text');
+
+            for (let i = 1; i <= 4; i++) {
+                const node = document.getElementById('node-' + i);
+                if (i <= step) {
+                    node.classList.add('active');
+                } else {
+                    node.classList.remove('active');
+                }
+            }
+
+            if (step === 1) {
+                fill.style.width = '25%';
+                label.innerText = "1. Solicitud recibida (Equipo en camino)";
+            } else if (step === 2) {
+                fill.style.width = '50%';
+                label.innerText = "2. Recogida en tu mesa / lugar";
+            } else if (step === 3) {
+                fill.style.width = '75%';
+                label.innerText = "3. Lavado Detail en proceso (0% Karcher)";
+            } else if (step === 4) {
+                fill.style.width = '100%';
+                label.innerText = "4. ¡Bici Lista y lubricada!";
+            }
+        }
+
+        // Nueva orden
+        function newOrder() {
+            document.getElementById('wash-form').reset();
+            document.getElementById('form-container').style.display = 'block';
+            document.getElementById('ticket-container').style.display = 'none';
+            document.getElementById('gps-text').innerText = "Obtener mi ubicación GPS actual";
+            currentGpsUrl = "Ubicación manual indicada por cliente";
+        }
+
+        // Renderizar Lista en Modo Administrador
+        function renderAdminList() {
+            const container = document.getElementById('admin-orders-list');
+            container.innerHTML = '';
+
+            if (ordersList.length === 0) {
+                container.innerHTML = '<p style="font-size:0.8rem; color:#71717a;">No hay órdenes activas.</p>';
+                return;
+            }
+
+            ordersList.forEach(function(ord) {
+                let statusName = "En Camino";
+                if(ord.step === 2) statusName = "Recogida";
+                if(ord.step === 3) statusName = "En Lavado";
+                if(ord.step === 4) statusName = "Lista p/ Entregar";
+
+                const card = document.createElement('div');
+                card.className = 'admin-card';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#ffffff;">${ord.id} - ${ord.name}</strong>
+                        <span class="badge-status">${statusName}</span>
+                    </div>
+                    <div style="font-size:0.75rem; color:#a1a1aa; margin:6px 0;">
+                        📍 ${ord.location}<br>
+                        🚲 ${ord.bike} | <strong style="color:#d4af37;">${ord.service} ($${ord.price})</strong>
+                    </div>
+                    <div class="grid-2" style="margin-top:10px;">
+                        <button class="btn-gps" style="margin:0; font-size:0.7rem;" onclick="advanceStep('${ord.id}')">
+                            ⏩ Avanzar Estado
+                        </button>
+                        <a href="https://wa.me/52${ord.phone}?text=¡Hola%20${encodeURIComponent(ord.name)}!%20Tu%20bicicleta%20${encodeURIComponent(ord.id)}%20ya%20está%20LISTA%20y%20lavada%20por%20SB%20BIKE%20DETAIL." target="_blank" class="btn-main" style="margin:0; font-size:0.7rem; padding:6px; text-decoration:none;">
+                            🔔 Avisar por WA
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Avanzar el paso de una orden en admin
+        function advanceStep(id) {
+            const ord = ordersList.find(o => o.id === id);
+            if (ord) {
+                if (ord.step < 4) {
+                    ord.step++;
+                } else {
+                    ord.step = 1;
+                }
+
+                if (activeOrder && activeOrder.id === id) {
+                    activeOrder.step = ord.step;
+                    updateTrackerUI(ord.step);
+                }
+
+                renderAdminList();
+            }
+        }
+    </script>
+</body>
+</html>
